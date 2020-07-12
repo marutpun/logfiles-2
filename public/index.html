@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <style>
+    .toolbar {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .table--typo {
+      font-size: 0.875rem;
+    }
+
+    .table__cell--1 {
+      width: 8.333334%
+    }
+
+    .table__cell--2 {
+      width: 16.666667%
+    }
+
+    .table__cell--9 {
+      width: 75%
+    }
+  </style>
+</head>
+
+<body>
+  <div ng-app="root">
+    <div class="container">
+      <h1 class="h2 text-center">Syslog File Search</h1>
+      <div class="toolbar" ng-controller="ToolController">
+        <button class="btn btn-outline-dark d-print-none" ng-click="printPage()">Print this page</button>
+      </div>
+
+      <section ng-controller="FetchController">
+        <table class="table table-sm table--typo">
+          <thead>
+            <tr>
+              <th scope="col" class="table__cell--1">
+                <div class="form-group">
+                  <label for="idSearch">ID</label>
+                  <input type="text" class="form-control d-print-none" id="idSearch" ng-model="search.ID">
+                </div>
+              </th>
+              <th scope="col" class="table__cell--2">
+                <div class="form-group">
+                  <label for="receivetAtSearch">ReceivedAt</label>
+                  <input type="text" class="form-control d-print-none" id="receivetAtSearch"
+                    ng-model="search.ReceivedAt">
+                </div>
+              </th>
+              <th scope="col" class="table__cell--9">
+                <div class="form-group">
+                  <label for="messageSearch">Message</label>
+                  <input type="text" class="form-control d-print-none" id="messageSearch" ng-model="search.Message">
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="log in logFilesData | filter:search:strict | limitTo:totalDisplayed">
+              <td>{{ log.ID}}</td>
+              <td>{{ log.ReceivedAt }}</td>
+              <td>{{ log.Message }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="btn-group" role="toolbar" aria-label="Fetch Data">
+          <button type="button" class="btn btn-success d-print-none" ng-click="reload50()">Load 50 data</button>
+          <button type="button" class="btn btn-success d-print-none" ng-click="reloadAll()">Load all data</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+</html>
